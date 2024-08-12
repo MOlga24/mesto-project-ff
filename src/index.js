@@ -47,40 +47,42 @@ function createCard(item, removeCard, likeCard, OpenImagePopup) {
   //     evt.target.classList.toggle("card__like-button_is-active");
   //   });
   const deleteButoon = cardElement.querySelector(".card__delete-button");
- 
-
   deleteButoon.addEventListener("click", function () {
-    removeCard(deleteButoon);
+  removeCard(deleteButoon);
   });
 
 const cardImg = cardElement.querySelector(".card__image");
+var modal = document.querySelector('.popup_type_image');
+
 cardImg.addEventListener("click", OpenImagePopup);
-  // const cardImg = cardElement.querySelector('img');
-  // cardImage.addEventListener("click", OpenImagePopup(cardImg));
+modal.classList.add("popup_is-animated");
    return cardElement;
 }
-
+var modal = document.querySelector('.popup_type_image');
 
 function OpenImagePopup(){ 
+
+
+  // 
+  modal.classList.add("popup_is-opened");
  
-  var modal = document.querySelector('.popup_type_image');
-  // modal.classList.add(".places__item");
-var modalImg = modal.querySelector(".popup__image");
+  var modalImg = modal.querySelector(".popup__image");
 var captionText = modal.querySelector(".popup__caption");
 var span = modal.querySelector(".popup__close");
   modal.style.display = "flex";
   modalImg.src = this.src;
   captionText.innerHTML = this.alt;
-  span.addEventListener("click",   function() { 
-    modal.style.display = "none";
-});
+  span.addEventListener("click",  close_modal);
 document.addEventListener("keydown", (evt) => {
   if (evt.key === "Escape") 
-  {modal.style.display = "none";};
+  {close_modal};
 });
 modal.addEventListener("click", function (evt) {
-if (evt.currentTarget === evt.target){modal.style.display = "none";};});
+if (evt.currentTarget === evt.target){close_modal};});
+
 }
+function close_modal(){  
+  modal.classList.remove("popup_is-opened");};
 function likeCard()
 {evt.target.classList.toggle("card__like-button_is-active");};
 function removeCard(deleteButoon) {
