@@ -32,7 +32,7 @@ let initialCardsCopy = initialCards;
 // for (let elem of initialCards) {
 //   initialCardsCopy.push(elem);
 //  }
-function createCard(item, removeCard, likeCard) {
+function createCard(item, removeCard, likeCard, OpenImagePopup) {
   const cardImage = cardTemplate.querySelector(".card__image");
   cardImage.setAttribute("alt", item.name);
   cardImage.setAttribute("src", item.link);
@@ -47,11 +47,39 @@ function createCard(item, removeCard, likeCard) {
   //     evt.target.classList.toggle("card__like-button_is-active");
   //   });
   const deleteButoon = cardElement.querySelector(".card__delete-button");
+ 
+
   deleteButoon.addEventListener("click", function () {
     removeCard(deleteButoon);
   });
-  
-    return cardElement;
+
+const cardImg = cardElement.querySelector(".card__image");
+cardImg.addEventListener("click", OpenImagePopup);
+  // const cardImg = cardElement.querySelector('img');
+  // cardImage.addEventListener("click", OpenImagePopup(cardImg));
+   return cardElement;
+}
+
+
+function OpenImagePopup(){ 
+ 
+  var modal = document.querySelector('.popup_type_image');
+  // modal.classList.add(".places__item");
+var modalImg = modal.querySelector(".popup__image");
+var captionText = modal.querySelector(".popup__caption");
+var span = modal.querySelector(".popup__close");
+  modal.style.display = "flex";
+  modalImg.src = this.src;
+  captionText.innerHTML = this.alt;
+  span.addEventListener("click",   function() { 
+    modal.style.display = "none";
+});
+document.addEventListener("keydown", (evt) => {
+  if (evt.key === "Escape") 
+  {modal.style.display = "none";};
+});
+modal.addEventListener("click", function (evt) {
+if (evt.currentTarget === evt.target){modal.style.display = "none";};});
 }
 function likeCard()
 {evt.target.classList.toggle("card__like-button_is-active");};
@@ -63,8 +91,10 @@ function removeCard(deleteButoon) {
 function render(initialCards) {
   container.innerHTML = " ";
   initialCards.forEach(function (item) {
-    container.append(createCard(item, removeCard));
+    container.append(createCard(item, removeCard, likeCard, OpenImagePopup));
+    
   });
+  
 }
 document.addEventListener("keydown", (evt) => {
   if (evt.key === "Escape") {
