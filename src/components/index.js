@@ -1,14 +1,7 @@
-import { initialCards } from "../scripts/cards";
-import { likeCard, removeCard } from "../scripts/cards";
+import { initialCards, likeCard, removeCard } from "./cards";
 import "../pages/index.css";
 import "../images/avatar.jpg";
-import {
-  sortModal,
-  closed,
-  OpenImageModal,
-  closeImageModal,
-  openModal,
-} from "../scripts/modal";
+import { closed, openModal } from "./modal";
 export const modal = document.querySelector(".popup");
 export const modalAdd = document.querySelector(".popup_type_new-card");
 export const modalOpener = document.querySelector(".profile__add-button");
@@ -17,10 +10,8 @@ const container = document.querySelector(".places__list");
 const cardTemplate = document.querySelector("#card-template").content;
 export const modalEditOpener = document.querySelector(".profile__edit-button");
 export let initialCardsCopy = initialCards;
-export const modalImage = document.querySelector(".popup_type_image");
+let modalImage = document.querySelector(".popup_type_image");
 export const modalImg = modalImage.querySelector(".popup__image");
-
-let elementsArray = document.querySelectorAll(".popup");
 
 function createCard(item, removeCard, likeCard, OpenImageModal) {
   const cardImage = cardTemplate.querySelector(".card__image");
@@ -37,47 +28,47 @@ function createCard(item, removeCard, likeCard, OpenImageModal) {
   deleteButoon.addEventListener("click", function () {
     removeCard(deleteButoon);
   });
-
   const cardImg = cardElement.querySelector(".card__image");
-  const modalImage = document.querySelector(".popup_type_image");
+  //const modalImage = document.querySelector(".popup_type_image");
   cardImg.addEventListener("click", OpenImageModal);
   modalImage.classList.add("popup_is-animated");
   return cardElement;
 }
+document.forms.edit_profile.addEventListener("submit", handleFormSubmit);
+document.forms.new_place.addEventListener("submit", addCard);
 document.addEventListener("click", sortModal);
-
+function sortModal(evt) {
+  if (evt.target === modalOpener) {
+    openModal(modalAdd);
+  }
+  if (evt.target === modalEditOpener) {
+    openModal(modalEdit);
+  }
+}
+function OpenImageModal() {
+  modalImage.classList.add("popup_is-opened");
+  var modalImg = modalImage.querySelector(".popup__image");
+  var captionText = modalImage.querySelector(".popup__caption");
+  var span = modalImage.querySelector(".popup__close");
+  modalImage.style.display = "flex";
+  modalImg.src = this.src;
+  captionText.innerHTML = this.alt;
+  span.addEventListener("click", function () {
+    closed(modalImage);
+  });
+}
 export function render(initialCards) {
   container.innerHTML = " ";
   initialCards.forEach(function (item) {
     container.append(createCard(item, removeCard, likeCard, OpenImageModal));
   });
 }
-document.addEventListener("keydown", (evt) => {
-  if (evt.key === "Escape") {
-    document.querySelectorAll(".popup").forEach((modal) => {
-      //  if (modal.classList.contains("popup_is-opened"))
-      //     modal.classList.remove("popup_is-opened");
-      closed(modal);
-    });
-  }
-});
-
-elementsArray.forEach(function (elem) {
-  elem.addEventListener("click", function (evt) {
-    if (evt.currentTarget === evt.target) {
-      document.querySelectorAll(".popup").forEach((modal) => {
-        closed(modal);
-      });
-    }
-  });
-});
 
 export function addCard(event) {
   const name = modalAdd.querySelector(".popup__input_type_card-name").value;
   const link = modalAdd.querySelector(".popup__input_type_url").value;
   event.preventDefault();
   initialCardsCopy.unshift({ name, link });
-
   closed(modalAdd);
 }
 
