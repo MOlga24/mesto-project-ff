@@ -1,39 +1,38 @@
-import { render } from "./index";
-import { initialCardsCopy } from "./index";
-
-let elementsArray = document.querySelectorAll(".popup");
-
 export function openModal(el) {
-  const modalCloser = el.querySelector(".popup__close");
-  modalCloser.addEventListener("click", function () {
-    closed(el);
-  });
+ 
   el.classList.add("popup_is-animated");
   el.classList.add("popup_is-opened");
+  document.addEventListener("keydown", closeModalByKey);
 }
 
-export function closed(el) {
-  el.classList.remove("popup_is-opened");
-  if (el.classList.contains("popup_type_new-card")) {
-    render(initialCardsCopy);
-  }
+export function closeModal(el) {
+  // function(evt) {
+  //   if (evt.target === document.querySelector(".popup__close")) {
+  //     closeModal(evt.target.closest(".popup"));
+  // if (el.classList.contains("popup_is-opened"))
+el.classList.remove("popup_is-opened");
+  debugger;
+  document.removeEventListener("keydown", closeModalByKey);
+
 }
 
-elementsArray.forEach(function (elem) {
-  elem.addEventListener("click", function (evt) {
-    if (evt.currentTarget === evt.target) {
-      document.querySelectorAll(".popup").forEach((modal) => {
-        closed(modal);
-      });
-    }
-  });
-});
+// elementsArray.forEach(function (elem) {
+//   elem.addEventListener("click", function (evt) {
+//     if (evt.currentTarget === evt.target) {
+//       document.querySelectorAll(".popup").forEach((modal) => {
+//         closeModal(modal);
+//       });
+//     }
+//   });
+// });
 
-document.addEventListener("keydown", (evt) => {
+ function closeModalByKey(evt) {
   if (evt.key === "Escape") {
-    document.querySelectorAll(".popup").forEach((modal) => {
-      modal.classList.remove("popup_is-opened");
-      closed(modal);
-    });
+    closeModal(document.querySelector(".popup_is-opened"));
   }
-});
+};
+export function closePopupByOverlay(evt) {
+  if (evt.currentTarget === evt.target) { 
+     closeModal(evt.currentTarget.closest(".popup")); 
+}
+} 
