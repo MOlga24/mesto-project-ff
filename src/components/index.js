@@ -12,31 +12,14 @@ export const modalEditOpener = document.querySelector(".profile__edit-button");
 export let initialCardsCopy = initialCards;
 const modalImage = document.querySelector(".popup_type_image");
 const modalCardImg = modalImage.querySelector(".popup__image");
-
-
-
+const profileInfo = document.querySelector(".profile__info");
+document.querySelector('.popup__input_type_name').placeholder = profileInfo.querySelector(".profile__title").textContent;
+document.querySelector('.popup__input_type_description').placeholder = profileInfo.querySelector(".profile__description").textContent;
 document.forms.edit_profile.addEventListener("submit", handleEditForm);
 document.forms.new_place.addEventListener("submit", addCard);
 document.addEventListener("click", onModalOpenCLick);
-document.addEventListener("click", function(evt) {
-  if (evt.target === document.querySelector(".popup__close")) {
-    closeModal(evt.target.closest(".popup"));
-  }
-});
-
-// document.addEventListener("click", function(evt) {
-//   if (evt.target === document.querySelector(".popup__close")) {
-//     closeModal(evt.target.closest(".popup"));
-//   }
-// });
 modal.forEach(function(elem){elem.querySelector(".popup__close").addEventListener("click", function(){closeModal(elem)})});
-
 modal.forEach(function(elem){elem.addEventListener("click", closePopupByOverlay)});
-
-// imageClose.addEventListener("click", function () {
-//   closeModal(modalImage);
-// });
-
 
 function onModalOpenCLick(evt) {
   if (evt.target === modalOpener) {
@@ -45,11 +28,13 @@ function onModalOpenCLick(evt) {
   if (evt.target === modalEditOpener) {
     openModal(modalEdit);
   }
-};
-// modalCloser.forEach(function (elem){elem.addEventListener("click", closeModal(elem.closest(".popup")))}); 
+  if (evt.target === modalCardImg) {
+    openImageModal();
+  }
+}; 
+ 
 function openImageModal() {
-  modalImage.classList.add("popup_is-opened");
-  modalImage.classList.add("popup_is-animated");
+  openModal(modalImage);
   let captionText = modalImage.querySelector(".popup__caption");
   modalCardImg.src = this.src;
   captionText.textContent = this.alt;
@@ -71,7 +56,7 @@ export function addCard(event) {
  closeModal(modalAdd);
  document.forms.new_place.reset();
 };
-const profileInfo = document.querySelector(".profile__info");
+
 render(initialCards);
 
 function editProfile(nameInput, jobInput) {
@@ -81,14 +66,9 @@ function editProfile(nameInput, jobInput) {
      
 };
 document.forms.edit_profile.reset();
-
- document.querySelector('.popup__input_type_name').placeholder = profileInfo.querySelector(".profile__title").textContent;
- document.querySelector('.popup__input_type_description').placeholder = profileInfo.querySelector(".profile__description").textContent;
 export function handleEditForm(evt) {
   const nameInput = document.forms.edit_profile.elements.name;
   const jobInput = document.forms.edit_profile.elements.description;
-
- 
   editProfile(nameInput, jobInput);
   evt.preventDefault();
   closeModal(modalEdit);
