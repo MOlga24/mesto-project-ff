@@ -31,9 +31,9 @@ function onModalOpenCLick(evt) {
     openModal(modalAdd);
   }
   if (evt.target === modalEditOpener) {
-    document.querySelector(".popup__input_type_name").placeholder =
+    document.querySelector(".popup__input_type_name").value =
       profileInfo.querySelector(".profile__title").textContent;
-    document.querySelector(".popup__input_type_description").placeholder =
+    document.querySelector(".popup__input_type_description").value =
       profileInfo.querySelector(".profile__description").textContent;
     openModal(modalEdit);
   }
