@@ -1,4 +1,5 @@
-import { initialCards, likeCard, removeCard, createCard } from "./cards";
+import { likeCard, removeCard, createCard } from "./card";
+import { initialCards } from "./cards";
 import "../pages/index.css";
 import "../images/avatar.jpg";
 import { closeModal, openModal, closePopupByOverlay } from "./modal";
@@ -7,25 +8,21 @@ export const modalAdd = document.querySelector(".popup_type_new-card");
 export const modalOpener = document.querySelector(".profile__add-button");
 export const modalEdit = document.querySelector(".popup_type_edit");
 const container = document.querySelector(".places__list");
-export let modal = document.querySelectorAll(".popup");
+export const modals = document.querySelectorAll(".popup");
 export const modalEditOpener = document.querySelector(".profile__edit-button");
-export let initialCardsCopy = initialCards;
 const modalImage = document.querySelector(".popup_type_image");
 const modalCardImg = modalImage.querySelector(".popup__image");
 const profileInfo = document.querySelector(".profile__info");
-document.querySelector(".popup__input_type_name").placeholder =
-  profileInfo.querySelector(".profile__title").textContent;
-document.querySelector(".popup__input_type_description").placeholder =
-  profileInfo.querySelector(".profile__description").textContent;
+
 document.forms.edit_profile.addEventListener("submit", handleEditForm);
 document.forms.new_place.addEventListener("submit", addCard);
 document.addEventListener("click", onModalOpenCLick);
-modal.forEach(function (elem) {
+modals.forEach(function (elem) {
   elem.querySelector(".popup__close").addEventListener("click", function () {
     closeModal(elem);
   });
 });
-modal.forEach(function (elem) {
+modals.forEach(function (elem) {
   elem.addEventListener("click", closePopupByOverlay);
 });
 
@@ -34,13 +31,17 @@ function onModalOpenCLick(evt) {
     openModal(modalAdd);
   }
   if (evt.target === modalEditOpener) {
+    document.querySelector(".popup__input_type_name").placeholder =
+      profileInfo.querySelector(".profile__title").textContent;
+    document.querySelector(".popup__input_type_description").placeholder =
+      profileInfo.querySelector(".profile__description").textContent;
     openModal(modalEdit);
   }
 }
 
 function openImageModal() {
   openModal(modalImage);
-  let captionText = modalImage.querySelector(".popup__caption");
+  const captionText = modalImage.querySelector(".popup__caption");
   modalCardImg.src = this.src;
   captionText.textContent = this.alt;
 }
@@ -61,7 +62,7 @@ export function addCard(event) {
     likeCard,
     openImageModal
   );
-  container.insertBefore(newCard, container.firstChild);
+  container.prepend(newCard);
   closeModal(modalAdd);
   document.forms.new_place.reset();
 }

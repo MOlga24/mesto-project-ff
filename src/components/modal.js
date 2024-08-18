@@ -17,6 +17,6 @@ function closeModalByKey(evt) {
 
 export function closePopupByOverlay(evt) {
   if (evt.currentTarget === evt.target) {
-    closeModal(evt.currentTarget.closest(".popup"));
+    closeModal(evt.currentTarget);
   }
 }
