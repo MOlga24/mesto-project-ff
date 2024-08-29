@@ -11,7 +11,7 @@
   border-radius: 2px;
   border: none;
   transition: visibility 0s, background 0.3s;
-  margin-top: 48px;
+  margin-top: 28px;
 }
 
 .popup__button:hover {
@@ -24,4 +24,17 @@
     font-size: 14px;
     line-height: 17px;
   }
+}
+
+.popup__button_disabled {
+
+  color:  rgba(0, 0, 0, 0.15);
+  background-color: transparent;
+  border: 2px solid  rgba(0, 0, 0, 0.15);
+
+}
+.popup__button_disabled:hover {
+  color:  rgba(0, 0, 0, 0.15);
+  background-color: transparent;
+  border: 2px solid  rgba(0, 0, 0, 0.15);
 }
