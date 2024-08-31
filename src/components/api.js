@@ -1,5 +1,5 @@
 import { editProfile } from "./index";
-const config = {
+export const config = {
     baseUrl: 'https://nomoreparties.co/v1/wff-cohort-22',
     headers: {
       authorization: '3bdecd97-cc83-4e5e-ac8d-e22694049ffd',
@@ -7,28 +7,31 @@ const config = {
     }
   };
   export function getProfileInfo() {
-    fetch('https://nomoreparties.co/v1/wff-cohort-22/users/me ', {headers: {
+    fetch('https://nomoreparties.co/v1/wff-cohort-22/users/me', {headers: {
       authorization: '3bdecd97-cc83-4e5e-ac8d-e22694049ffd'} 
     })
     .then((res) => res.json())
   .then((profile) => { 
+   document.querySelector('.profile__image').setAttribute('style', `background-image: url(${profile.avatar})`);
    const nameInput = profile.name;
    const jobInput = profile.about;
    editProfile(nameInput, jobInput); 
+   
    })
      
   }
-  
-  export const getInitialCards = () => {
-    return fetch(`${config.baseUrl}/cards`, {
-      headers: config.headers
+  export function editProfileInfo(nameInput, jobInput) {
+  fetch('https://nomoreparties.co/v1/wff-cohort-22/users/me', {
+    method: 'PATCH',
+    headers: {
+      authorization: '3bdecd97-cc83-4e5e-ac8d-e22694049ffd',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      name: nameInput,
+      about: jobInput
     })
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-  
-        // если ошибка, отклоняем промис
-        return Promise.reject(`Ошибка: ${res.status}`);
-      });
-  }
+  });
+
+}
+ 

@@ -1,12 +1,12 @@
+import {deleteCard} from "./cards"
 const cardTemplate = document.querySelector("#card-template").content;
+export let likeNum = 0;
 
-export function likeCard(evt) {
-  evt.target.classList.toggle("card__like-button_is-active");
-}
 
-export function removeCard(deleteButoon) {
-  const listItem = deleteButoon.closest(".card");
-  listItem.remove();
+export function removeCard(deleteButton, id) {
+  const listItem = deleteButton.closest(".card");
+ 
+  deleteCard(id, listItem);
 }
 
 export function createCard(item, removeCard, likeCard, openImageModal) {
@@ -17,12 +17,17 @@ export function createCard(item, removeCard, likeCard, openImageModal) {
     .querySelector(".places__item")
     .cloneNode(true);
   cardElement.querySelector(".card__title").textContent = item.name;
-  cardElement
-    .querySelector(".card__like-button")
-    .addEventListener("click", likeCard);
-  const deleteButoon = cardElement.querySelector(".card__delete-button");
-  deleteButoon.addEventListener("click", function () {
-    removeCard(deleteButoon);
+  const id = item._id;
+if (item.likes.length < 1) {likeNum = 0}
+else {likeNum = item.likes.length};
+const likeButton = cardElement.querySelector(".card__like-button");
+ const likeSpan = cardElement.querySelector(".like__num");
+    likeButton.addEventListener("click", function () {likeCard(likeButton, likeSpan, item._id)});
+     cardElement.querySelector(".like__num").textContent = likeNum; 
+    
+  const deleteButton = cardElement.querySelector(".card__delete-button");
+  deleteButton.addEventListener("click", function () {
+    removeCard(deleteButton, item._id);
   });
   cardElement
     .querySelector(".card__image")

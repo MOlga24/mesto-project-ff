@@ -1,10 +1,10 @@
-import { likeCard, removeCard, createCard } from "./card";
-import { initialCards } from "./cards";
+import {  removeCard, createCard } from "./card";
+import { likeCard, getInitialCards, addNewCard } from "./cards";
 import "../pages/index.css";
 import "../images/avatar.jpg";
 import { closeModal, openModal, closePopupByOverlay } from "./modal";
 import {enableValidation, clearValidation, validationConfig} from "./validation";
-import {getProfileInfo} from "./api";
+import {getProfileInfo, editProfileInfo} from "./api";
 export const modalAdd = document.querySelector(".popup_type_new-card");
 export const modalOpener = document.querySelector(".profile__add-button");
 export const modalEdit = document.querySelector(".popup_type_edit");
@@ -55,20 +55,23 @@ function openImageModal() {
 export function render(initialCards) {
   container.textContent = " ";
   initialCards.forEach(function (item) {
-    container.append(createCard(item, removeCard, likeCard, openImageModal));
+  container.append(createCard(item, removeCard, likeCard, openImageModal));
   });
 }
 
 export function addCard(event) {
   const name = modalAdd.querySelector(".popup__input_type_card-name").value;
   const link = modalAdd.querySelector(".popup__input_type_url").value;
+  let likes = 0;
+  
   event.preventDefault();
   const newCard = createCard(
-    { name, link },
+    { name, link, likes},
     removeCard,
     likeCard,
     openImageModal
   );
+  addNewCard(name, link, likes);
   container.prepend(newCard);
   
   closeModal(modalAdd);
@@ -76,21 +79,21 @@ export function addCard(event) {
 
   
   }
- 
-render(initialCards);
-getProfileInfo();
-export 
-function editProfile(nameInput, jobInput) {
+  
 
+ getInitialCards();
+getProfileInfo();
+export function editProfile(nameInput, jobInput) {
   profileInfo.querySelector(".profile__title").textContent = nameInput;
   profileInfo.querySelector(".profile__description").textContent =
     jobInput;
-   
+    editProfileInfo(nameInput, jobInput);
+    
 };
 
  function handleEditForm(evt) {
-  const nameInput = document.forms.edit_profile.elements.name;
-  const jobInput = document.forms.edit_profile.elements.description;
+  const nameInput = document.forms.edit_profile.elements.name.value;
+  const jobInput = document.forms.edit_profile.elements.description.value;
   editProfile(nameInput, jobInput);
   
   evt.preventDefault();

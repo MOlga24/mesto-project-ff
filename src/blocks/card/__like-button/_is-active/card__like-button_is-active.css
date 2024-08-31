@@ -2,3 +2,11 @@
   background: transparent url('../../../../images/like-active.svg') no-repeat;
  
 }
+.card__like {
+  display: flex;
+  flex-direction: column;
+}
+.like__num {
+  display: flex;
+ justify-content: center;
+}

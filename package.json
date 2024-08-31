@@ -8,7 +8,10 @@
     "dev": "webpack serve",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
+   
+    
   },
+
   "author": "Olga M",
   "license": "ISC",
   "devDependencies": {
