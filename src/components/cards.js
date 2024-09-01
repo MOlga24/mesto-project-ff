@@ -33,12 +33,11 @@ export function addNewCard(name, link, likeNum) {
       name: name,
       link: link,
       likes: likeNum,
+     
     }),
   })
     .then((res) => res.json())
-    .then((res) => {
-      console.log(res[link]);
-    });
+  
 }
 export function deleteCard(id, listItem) {
   fetch(`${config.baseUrl}/cards/${id}`, {

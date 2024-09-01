@@ -14,6 +14,7 @@ export const modalEditOpener = document.querySelector(".profile__edit-button");
 const modalImage = document.querySelector(".popup_type_image");
 const modalCardImg = modalImage.querySelector(".popup__image");
 const profileInfo = document.querySelector(".profile__info");
+export const confirmPopup = document.querySelector(".popup_delete_image");
 
 document.forms.edit_profile.addEventListener("submit", handleEditForm);
 
@@ -29,6 +30,7 @@ modals.forEach(function (elem) {
 });
 
 function onModalOpenCLick(evt) {
+ 
   if (evt.target === modalOpener) {
     document.forms.new_place.reset();
     clearValidation();
@@ -44,6 +46,7 @@ function onModalOpenCLick(evt) {
       
     openModal(modalEdit); 
   }
+
 }
 
 function openImageModal() {
@@ -65,13 +68,14 @@ export function addCard(event) {
   let likes = 0;
   
   event.preventDefault();
+  addNewCard(name, link, likes);
   const newCard = createCard(
     { name, link, likes},
     removeCard,
     likeCard,
     openImageModal
   );
-  addNewCard(name, link, likes);
+  
   container.prepend(newCard);
   
   closeModal(modalAdd);

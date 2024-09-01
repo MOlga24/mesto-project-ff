@@ -5,3 +5,6 @@
   display: block;
 
 }
+.popup_delete{
+   min-height: max-content;
+ }

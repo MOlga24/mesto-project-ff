@@ -1,4 +1,4 @@
-import  {clearValidation} from "./index.js";
+
 export function openModal(el) {
   el.classList.add("popup_is-animated");
   el.classList.add("popup_is-opened");
