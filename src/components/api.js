@@ -12,9 +12,11 @@ export const config = {
     })
     .then((res) => res.json())
   .then((profile) => { 
+
    document.querySelector('.profile__image').setAttribute('style', `background-image: url(${profile.avatar})`);
-   const nameInput = profile.name;
+    const nameInput = profile.name;
    const jobInput = profile.about;
+   
    editProfile(nameInput, jobInput); 
    
    })

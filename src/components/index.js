@@ -19,16 +19,24 @@ const modalImage = document.querySelector(".popup_type_image");
 const modalCardImg = modalImage.querySelector(".popup__image");
 const profileInfo = document.querySelector(".profile__info");
 export const confirmPopup = document.querySelector(".popup_delete_image");
-
+const profileImageEdit = document.querySelector (".profile__image");
+const UpdateAvatarForm = document.querySelector (".popup_edit_image");
 document.forms.edit_profile.addEventListener("submit", handleEditForm);
 
 document.forms.new_place.addEventListener("submit", addCard);
 
 document.addEventListener("click", onModalOpenCLick);
-
+profileImageEdit.addEventListener("click", function() {openModal(UpdateAvatarForm)});
+document.forms.popup_edit_image.addEventListener("submit", function()
+{ closeModal(UpdateAvatarForm);  
+  const avatar = document.querySelector(".ava_link").value;
+  document.querySelector('.profile__image').setAttribute('style', `background-image: url(${avatar})`);
+ 
+});
 modals.forEach(function (elem) {
   elem.querySelector(".popup__close").addEventListener("click", function () {
-    closeModal(elem);
+    closeModal(elem);   
+  
   });
 });
 

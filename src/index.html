@@ -152,6 +152,37 @@
         </div>
       </form>
       </div>
+      <div class="popup popup_edit_image">
+        <div class="popup__content">
+          <form class="popup__form" name="popup_edit_image" >
+            <button type="button" class="popup__close"></button>
+            <h3 class="popup__title">Обновить аватар</h3>
+            <input
+            id="type_url-input"
+            type="url"
+            name="ava"
+            class="ava_link popup__input popup__input_type_url"
+            placeholder="" />
+            <!-- required -->
+           <!-- pattern="[^\\s]+(.*?)\\.(jpg|jpeg|png|gif|JPG|JPEG|PNG|GIF)$"  -->
+           <!-- data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы"  -->
+         
+          <span
+          class="type_url-input-error popup__input-error"
+          aria-live="polite"
+        ></span>
+            <button type="submit" class="button popup__button">
+              Сохранить
+            </button>
+            <span
+              class="form__empty-error"
+              id="empty-error"
+              aria-live="assertive"
+            >
+            </span>
+          </form>
+        </div>
+      </div>
     <template id="card-template">
       <li class="places__item card">
         <img class="card__image" src="" alt="" />

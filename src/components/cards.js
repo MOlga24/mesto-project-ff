@@ -12,7 +12,7 @@ export const getInitialCards = () => {
       }
     })
     .then((res) => {
-     
+     console.log(res);
       const initialCards = Array.from(res);
        
       render(initialCards); 
