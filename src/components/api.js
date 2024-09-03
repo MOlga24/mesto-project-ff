@@ -39,7 +39,7 @@ export const config = {
 }
  export function editAvatarInfo(avatarka) {
 
-  fetch('https://nomoreparties.co/v1/wff-cohort-22/users/me', {
+  fetch('https://nomoreparties.co/v1/wff-cohort-22/users/me/avatar', {
     method: 'PATCH',
     headers: {
       authorization: '3bdecd97-cc83-4e5e-ac8d-e22694049ffd',

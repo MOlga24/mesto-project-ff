@@ -1,4 +1,4 @@
-import { deleteCard, getInitialCards } from "./cards";
+import { deleteCard } from "./cards";
 import { confirmPopup } from "./index";
 import { openModal, closeModal } from "./modal";
 const cardTemplate = document.querySelector("#card-template").content;
@@ -6,10 +6,8 @@ export let likeNum = 0;
 
 
 export function removeCard(deleteButton, id) {
- 
-  const listItem = deleteButton.closest(".card");
- 
-  deleteCard(id, listItem);
+   const listItem = deleteButton.closest(".card");
+   deleteCard(id, listItem);
 }
 
 export function createCard(item, removeCard, likeCard, openImageModal) {

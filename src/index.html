@@ -22,8 +22,9 @@
         <section class="profile page__section">
           <div
             class="profile__image"
-            style="background-image: url(<%=require('./images/avatar.jpg')%>)"
-          ></div>
+            style="background-image: url(<%=require('./images/avatar.jpg')%>)">
+          </div>
+       
           <div class="profile__info">
             <h1 class="profile__title">Жак-Ив Кусто</h1>
             <button class="profile__edit-button" type="button"></button>
@@ -148,7 +149,7 @@
         </div>
       </form>
       </div>
-      <div class="popup popup_edit_image">
+      <div class="popup popup_edit_image" novalidate>
         <div class="popup__content">
           <form class="popup__form" name="popup_edit_image" >
             <button type="button" class="popup__close"></button>
@@ -158,12 +159,12 @@
             type="url"
             name="ava"
             class="ava_link popup__input popup__input_type_url"
-            placeholder="" />
-            <!-- required -->
-           <!-- pattern="[^\\s]+(.*?)\\.(jpg|jpeg|png|gif|JPG|JPEG|PNG|GIF)$"  -->
-           <!-- data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы"  -->
-         
-          <span
+            placeholder=""   
+            required
+            pattern="[^https?://\S+(?:jpe?g|png)$]"
+            data-error-message="Введите ссылку на изображение"
+            />
+            <span
           class="type_url-input-error popup__input-error"
           aria-live="polite"
         ></span>

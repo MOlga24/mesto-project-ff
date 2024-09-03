@@ -1,15 +1,13 @@
-
 export function openModal(el) {
   el.classList.add("popup_is-animated");
   el.classList.add("popup_is-opened");
+  el.querySelector(".popup__button").classList.add("popup__button_disabled");
   document.addEventListener("keydown", closeModalByKey);
-
 }
 
 export function closeModal(el) {
   el.classList.remove("popup_is-opened");
   document.removeEventListener("keydown", closeModalByKey);
-  
 }
 
 function closeModalByKey(evt) {
@@ -23,9 +21,3 @@ export function closePopupByOverlay(evt) {
     closeModal(evt.currentTarget);
   }
 }
-
-
-
-
-
-

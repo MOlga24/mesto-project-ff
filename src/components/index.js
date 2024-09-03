@@ -20,7 +20,8 @@ const modalCardImg = modalImage.querySelector(".popup__image");
 const profileInfo = document.querySelector(".profile__info");
 export const confirmPopup = document.querySelector(".popup_delete_image");
 const profileImageEdit = document.querySelector(".profile__image");
-const UpdateAvatarForm = document.querySelector(".popup_edit_image");
+const updateAvatarForm = document.querySelector(".popup_edit_image");
+getProfileInfo();
 document.forms.edit_profile.addEventListener("submit", handleEditForm);
 
 document.forms.new_place.addEventListener("submit", addCard);
@@ -28,20 +29,22 @@ document.forms.new_place.addEventListener("submit", addCard);
 
 document.addEventListener("click", onModalOpenCLick);
 profileImageEdit.addEventListener("click", function () {
+  document.forms.popup_edit_image.reset();
+  
+  openModal(updateAvatarForm); 
+  //UpdateAvatarForm.querySelector(".button").textContent = "Сохранить";
 
- UpdateAvatarForm.querySelector(".button").textContent = "Сохранить";
-  openModal(UpdateAvatarForm);
 }); 
 
 document.forms.popup_edit_image.addEventListener("submit", function () {  
-  UpdateAvatarForm.querySelector(".button").textContent = "Сохранение...";
-  closeModal(UpdateAvatarForm);
- 
- const avatarka = document.querySelector(".ava_link").value;
+  updateAvatarForm.querySelector(".button").textContent = "Сохранение...";
+  const avatarka = document.querySelector(".ava_link").value;
   document
     .querySelector(".profile__image")
     .setAttribute("style", `background-image: url(${avatarka})`);  
-    
+      editAvatarInfo(avatarka);
+      updateAvatarForm.querySelector(".popup__button").classList.add("popup__button_disabled");
+  closeModal(updateAvatarForm);
   
 });
 modals.forEach(function (elem) {
@@ -90,11 +93,8 @@ export function addCard(event) {
   const name = modalAdd.querySelector(".popup__input_type_card-name").value;
   const link = modalAdd.querySelector(".popup__input_type_url").value;
   let likes = "";
-  //  let owner_id = '18224dc979a1237fbf3f98ed';
-
   event.preventDefault();
   addNewCard(name, link, likes);
-
   const newCard = createCard(
     { name, link, likes },
     removeCard,
@@ -102,21 +102,17 @@ export function addCard(event) {
     openImageModal
   );
   container.prepend(newCard);
- 
-  closeModal(modalAdd);
+   closeModal(modalAdd);
 
 }
 
 getInitialCards();
 
-getProfileInfo();
-
 export function editProfile(nameInput, jobInput) {
-  
   profileInfo.querySelector(".profile__title").textContent = nameInput;
   profileInfo.querySelector(".profile__description").textContent = jobInput;
   editProfileInfo(nameInput, jobInput); 
-  // editAvatarInfo(nameInput, jobInput, avatarka);
+ 
 }
 
 function handleEditForm(evt) {
@@ -124,7 +120,6 @@ function handleEditForm(evt) {
   const nameInput = document.forms.edit_profile.elements.name.value;
   const jobInput = document.forms.edit_profile.elements.description.value;
   editProfile(nameInput, jobInput);
-
   evt.preventDefault();
   closeModal(modalEdit);
  
