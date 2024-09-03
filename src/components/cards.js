@@ -64,7 +64,7 @@ getInitialCards();
   //likeButton.nextElementSibling.textContent -= likeButton.classList.toggle("card__like-button_is-active" ? -1: 1);
 let numLike = item.likes.length; 
 if (numLike == 0) {addLikeCard( id);
-//  likeButton.nextElementSibling.textContent = numLike + 1; 
+ likeButton.nextElementSibling.textContent = numLike + 1; 
  likeButton.classList.add("card__like-button_is-active");
 }
 else {

@@ -23,15 +23,17 @@ export function createCard(item, removeCard, likeCard, openImageModal) {
   cardElement.querySelector(".card__title").textContent = item.name;
   //const id = item._id;
   const userId = '18224dc979a1237fbf3f98ed';
-
-let likeNum = item.likes.length;
+ let likeNum = item.likes.length;
+//   if(!item.hasOwnProperty('likes')){item.likes.length = 0}
+//   else
+// {likeNum = item.likes.length;}
 
 // else {likeNum = item.likes.length}; 
 const likeButton = cardElement.querySelector(".card__like-button");
- const likeSpan = cardElement.querySelector(".like__num");
+ const likeSpan = cardElement.querySelector(".like__num");     
   likeSpan.textContent = likeNum; 
     likeButton.addEventListener("click", function () {
-   
+
       likeCard(item, likeButton, item._id, userId); }  );
      
     const deleteButton = cardElement.querySelector(".card__delete-button");
@@ -40,8 +42,8 @@ if((item.hasOwnProperty('owner')&&(item.owner._id !== userId)))
   deleteButton.addEventListener("click", function () {
     openModal(confirmPopup);
     document.forms.delete_card.addEventListener("submit", function()
-   { closeModal(confirmPopup);
-     removeCard(deleteButton, item._id);} )
+   {closeModal(confirmPopup);
+    removeCard(deleteButton, item._id);} )
   });
   cardElement
     .querySelector(".card__image")

@@ -8,7 +8,7 @@ import {
   clearValidation,
   validationConfig,
 } from "./validation";
-import { getProfileInfo, editProfileInfo } from "./api";
+import { getProfileInfo, editProfileInfo, editAvatarInfo } from "./api";
 export const modalAdd = document.querySelector(".popup_type_new-card");
 export const modalOpener = document.querySelector(".profile__add-button");
 export const modalEdit = document.querySelector(".popup_type_edit");
@@ -19,24 +19,34 @@ const modalImage = document.querySelector(".popup_type_image");
 const modalCardImg = modalImage.querySelector(".popup__image");
 const profileInfo = document.querySelector(".profile__info");
 export const confirmPopup = document.querySelector(".popup_delete_image");
-const profileImageEdit = document.querySelector (".profile__image");
-const UpdateAvatarForm = document.querySelector (".popup_edit_image");
+const profileImageEdit = document.querySelector(".profile__image");
+const UpdateAvatarForm = document.querySelector(".popup_edit_image");
 document.forms.edit_profile.addEventListener("submit", handleEditForm);
 
 document.forms.new_place.addEventListener("submit", addCard);
 
+
 document.addEventListener("click", onModalOpenCLick);
-profileImageEdit.addEventListener("click", function() {openModal(UpdateAvatarForm)});
-document.forms.popup_edit_image.addEventListener("submit", function()
-{ closeModal(UpdateAvatarForm);  
-  const avatar = document.querySelector(".ava_link").value;
-  document.querySelector('.profile__image').setAttribute('style', `background-image: url(${avatar})`);
+profileImageEdit.addEventListener("click", function () {
+
+ UpdateAvatarForm.querySelector(".button").textContent = "Сохранить";
+  openModal(UpdateAvatarForm);
+}); 
+
+document.forms.popup_edit_image.addEventListener("submit", function () {  
+  UpdateAvatarForm.querySelector(".button").textContent = "Сохранение...";
+  closeModal(UpdateAvatarForm);
  
+ const avatarka = document.querySelector(".ava_link").value;
+  document
+    .querySelector(".profile__image")
+    .setAttribute("style", `background-image: url(${avatarka})`);  
+    
+  
 });
 modals.forEach(function (elem) {
   elem.querySelector(".popup__close").addEventListener("click", function () {
-    closeModal(elem);   
-  
+    closeModal(elem);
   });
 });
 
@@ -48,6 +58,7 @@ function onModalOpenCLick(evt) {
   if (evt.target === modalOpener) {
     document.forms.new_place.reset();
     clearValidation();
+    modalAdd.querySelector(".button").textContent = "Сохранить";
     openModal(modalAdd);
   }
   if (evt.target === modalEditOpener) {
@@ -56,7 +67,7 @@ function onModalOpenCLick(evt) {
       profileInfo.querySelector(".profile__title").textContent;
     document.querySelector(".popup__input_type_description").value =
       profileInfo.querySelector(".profile__description").textContent;
-
+      modalEdit.querySelector(".button").textContent = "Сохранить";
     openModal(modalEdit);
   }
 }
@@ -75,23 +86,25 @@ export function render(initialCards) {
 }
 
 export function addCard(event) {
+   this.querySelector(".button").textContent = "Сохранение...";
   const name = modalAdd.querySelector(".popup__input_type_card-name").value;
   const link = modalAdd.querySelector(".popup__input_type_url").value;
   let likes = "";
-//  let owner_id = '18224dc979a1237fbf3f98ed';
-  
+  //  let owner_id = '18224dc979a1237fbf3f98ed';
 
   event.preventDefault();
-  addNewCard(name, link, likes) ;
- 
+  addNewCard(name, link, likes);
+
   const newCard = createCard(
-    { name, link, likes},
+    { name, link, likes },
     removeCard,
     likeCard,
     openImageModal
   );
   container.prepend(newCard);
+ 
   closeModal(modalAdd);
+
 }
 
 getInitialCards();
@@ -99,18 +112,22 @@ getInitialCards();
 getProfileInfo();
 
 export function editProfile(nameInput, jobInput) {
+  
   profileInfo.querySelector(".profile__title").textContent = nameInput;
   profileInfo.querySelector(".profile__description").textContent = jobInput;
-  editProfileInfo(nameInput, jobInput);
+  editProfileInfo(nameInput, jobInput); 
+  // editAvatarInfo(nameInput, jobInput, avatarka);
 }
 
 function handleEditForm(evt) {
+  this.querySelector(".button").textContent = "Сохранение...";
   const nameInput = document.forms.edit_profile.elements.name.value;
   const jobInput = document.forms.edit_profile.elements.description.value;
   editProfile(nameInput, jobInput);
 
   evt.preventDefault();
   closeModal(modalEdit);
+ 
 }
 
 enableValidation(validationConfig);
