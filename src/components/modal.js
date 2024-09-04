@@ -1,7 +1,9 @@
 export function openModal(el) {
   el.classList.add("popup_is-animated");
   el.classList.add("popup_is-opened");
-  el.querySelector(".popup__button").classList.add("popup__button_disabled");
+  if (!(el.classList.contains("popup_type_image")))
+    {el.querySelector(".popup__button").classList.add("popup__button_disabled");
+  }
   document.addEventListener("keydown", closeModalByKey);
 }
 

@@ -24,7 +24,7 @@ const updateAvatarForm = document.querySelector(".popup_edit_image");
 getProfileInfo();
 document.forms.edit_profile.addEventListener("submit", handleEditForm);
 
-document.forms.new_place.addEventListener("submit", addCard);
+document.forms.new_place.addEventListener("submit",addCard);
 
 
 document.addEventListener("click", onModalOpenCLick);
@@ -88,22 +88,24 @@ export function render(initialCards) {
   });
 }
 
-export function addCard(event) {
+export function addCard() {
    this.querySelector(".button").textContent = "Сохранение...";
   const name = modalAdd.querySelector(".popup__input_type_card-name").value;
   const link = modalAdd.querySelector(".popup__input_type_url").value;
   let likes = "";
+  let _id = '';
   event.preventDefault();
-  addNewCard(name, link, likes);
+ 
   const newCard = createCard(
-    { name, link, likes },
+    { name, link, likes, _id },
     removeCard,
     likeCard,
     openImageModal
   );
-  container.prepend(newCard);
-   closeModal(modalAdd);
-
+ addNewCard(name, link, likes, _id); 
+  container.prepend(newCard);  
+  closeModal(modalAdd);
+  // 
 }
 
 getInitialCards();

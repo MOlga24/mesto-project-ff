@@ -1,4 +1,4 @@
-import { deleteCard } from "./cards";
+import { deleteCard, getInitialCards } from "./cards";
 import { confirmPopup } from "./index";
 import { openModal, closeModal } from "./modal";
 const cardTemplate = document.querySelector("#card-template").content;
@@ -19,7 +19,7 @@ export function createCard(item, removeCard, likeCard, openImageModal) {
     .querySelector(".places__item")
     .cloneNode(true);
   cardElement.querySelector(".card__title").textContent = item.name;
-  //const id = item._id;
+  const id = item._id;
   const userId = '18224dc979a1237fbf3f98ed';
  let likeNum = item.likes.length;
 //   if(!item.hasOwnProperty('likes')){item.likes.length = 0}
@@ -30,9 +30,7 @@ export function createCard(item, removeCard, likeCard, openImageModal) {
 const likeButton = cardElement.querySelector(".card__like-button");
  const likeSpan = cardElement.querySelector(".like__num");     
   likeSpan.textContent = likeNum; 
-    likeButton.addEventListener("click", function () {
-
-      likeCard(item, likeButton, item._id, userId); }  );
+    
      
     const deleteButton = cardElement.querySelector(".card__delete-button");
 if((item.hasOwnProperty('owner')&&(item.owner._id !== userId)))
@@ -46,5 +44,8 @@ if((item.hasOwnProperty('owner')&&(item.owner._id !== userId)))
   cardElement
     .querySelector(".card__image")
     .addEventListener("click", openImageModal);
+    likeButton.addEventListener("click", function () {
+   
+      likeCard(item, likeButton, item._id, userId);  getInitialCards()});
   return cardElement;
 }

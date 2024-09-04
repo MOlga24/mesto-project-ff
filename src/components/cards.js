@@ -22,8 +22,9 @@ export const getInitialCards = () => {
       return Promise.reject(`Ошибка: ${res.status}`);
     });
 };
-export function addNewCard(name, link, likeNum) {
+export function addNewCard(name, link, likeNum, id) {
   let userId = "18224dc979a1237fbf3f98ed";
+  // let id= '';
   fetch(`${config.baseUrl}/cards`, {
     method: "POST",
     headers: config.headers,
@@ -31,8 +32,12 @@ export function addNewCard(name, link, likeNum) {
       name: name,
       link: link,
       likes: likeNum,
+      _id: id
     }),
-  }).then((res) => res.json());
+  }).then((res) => res.json()
+  )
+  .then((res) =>  id = res._id)
+  
 }
 export function deleteCard(id, listItem) {
   fetch(`${config.baseUrl}/cards/${id}`, {
@@ -46,7 +51,7 @@ export function deleteCard(id, listItem) {
   listItem.remove();
 }
 export function likeCard(item, likeButton, id, userId) {
-  getInitialCards();
+
 
   let numLike = item.likes.length;
   if (numLike == 0) {
@@ -68,8 +73,8 @@ export function likeCard(item, likeButton, id, userId) {
       }
     }
   }
-
   getInitialCards();
+ 
 }
 
 export function addLikeCard(id) {
@@ -79,6 +84,7 @@ export function addLikeCard(id) {
     
   }).then((response) => {
     return response.json();
+    
   });
 
   // if (((res.likes[0]._id) !== userId))
