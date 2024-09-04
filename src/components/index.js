@@ -24,7 +24,7 @@ const updateAvatarForm = document.querySelector(".popup_edit_image");
 getProfileInfo();
 document.forms.edit_profile.addEventListener("submit", handleEditForm);
 
-document.forms.new_place.addEventListener("submit",addCard);
+document.forms.new_place.addEventListener("submit", addCard);
 
 
 document.addEventListener("click", onModalOpenCLick);
@@ -75,7 +75,7 @@ function onModalOpenCLick(evt) {
   }
 }
 
-function openImageModal() {
+export function openImageModal() {
   openModal(modalImage);
   const captionText = modalImage.querySelector(".popup__caption");
   modalCardImg.src = this.src;
@@ -95,6 +95,7 @@ export function addCard() {
   let likes = "";
   let _id = '';
   event.preventDefault();
+addNewCard(name, link, likes, _id);
  
   const newCard = createCard(
     { name, link, likes, _id },
@@ -102,10 +103,10 @@ export function addCard() {
     likeCard,
     openImageModal
   );
- addNewCard(name, link, likes, _id); 
+
   container.prepend(newCard);  
   closeModal(modalAdd);
-  // 
+
 }
 
 getInitialCards();

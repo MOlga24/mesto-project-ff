@@ -16,6 +16,7 @@ export const getInitialCards = () => {
       const initialCards = Array.from(res);
 
       render(initialCards);
+      
     })
 
     .catch((res) => {
@@ -36,7 +37,8 @@ export function addNewCard(name, link, likeNum, id) {
     }),
   }).then((res) => res.json()
   )
-  .then((res) =>  id = res._id)
+   .then(getInitialCards)
+  
   
 }
 export function deleteCard(id, listItem) {
@@ -51,11 +53,11 @@ export function deleteCard(id, listItem) {
   listItem.remove();
 }
 export function likeCard(item, likeButton, id, userId) {
-
+ 
 
   let numLike = item.likes.length;
   if (numLike == 0) {
-    addLikeCard(id);
+    addLikeCard(id); 
     likeButton.nextElementSibling.textContent = numLike + 1;
     likeButton.classList.add("card__like-button_is-active");
   } else {
@@ -64,17 +66,22 @@ export function likeCard(item, likeButton, id, userId) {
     for (let el in likes) {
       if (likes[el]._id == userId) {
         deleteLikeCard(id);
-        //  likeButton.nextElementSibling.textContent = numLike - 1;
+         // likeButton.nextElementSibling.textContent = numLike - 1;
         likeButton.classList.remove("card__like-button_is-active");
-      } else {
+       
+      } 
+      else {
         addLikeCard(id);
-        // likeButton.nextElementSibling.textContent = numLike + 1;
+       //  likeButton.nextElementSibling.textContent = numLike + 1;
         likeButton.classList.add("card__like-button_is-active");
-      }
-    }
+      } 
+    } 
+     getInitialCards();
   }
-  getInitialCards();
+
  
+ getInitialCards();
+
 }
 
 export function addLikeCard(id) {
@@ -83,11 +90,10 @@ export function addLikeCard(id) {
     headers: config.headers,
     
   }).then((response) => {
-    return response.json();
-    
+    return response.json()
+    // .then(getInitialCards())
   });
 
-  // if (((res.likes[0]._id) !== userId))
 }
 export function deleteLikeCard(id) {
   fetch(`${config.baseUrl}/cards/likes/${id}`, {
