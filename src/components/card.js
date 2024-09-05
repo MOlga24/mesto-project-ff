@@ -1,4 +1,4 @@
-import { deleteCard, getInitialCards } from "./cards";
+import { deleteCard, addLikeCard, deleteLikeCard } from "./cards";
 import { confirmPopup } from "./index";
 import { openModal, closeModal } from "./modal";
 const cardTemplate = document.querySelector("#card-template").content;
@@ -45,9 +45,39 @@ if((item.hasOwnProperty('owner')&&(item.owner._id !== userId)))
     .querySelector(".card__image")
     .addEventListener("click", openImageModal);
      likeButton.addEventListener("click", function () {
- 
-      likeCard(item, likeButton, id, userId); 
-      // getInitialCards()
+      const arrayLikes = Array.from(item.likes);
+      const likes = arrayLikes.map((elem) => ({ _id: elem._id }));
+      const likes_ar = Object.values(likes);
+      if(likes_ar.find((el) => el._id === userId))
+     { 
+      deleteLikeCard(id)
+      .then((response) => {
+        return response.json()
+        .then(data =>{likeCard(data, likeButton, id, userId)})
+      });
+      
+    } else{
+          addLikeCard(id)
+          .then((response) => {
+            return response.json()
+            .then(data =>{likeCard(data, likeButton, id, userId)})
+          });
+     
+          likeButton.classList.add("card__like-button_is-active");
+        }
+      
+         
+           // likeButton.nextElementSibling.textContent = numLike - 1;
+        //   likeButton.classList.remove("card__like-button_is-active");
+        // }
+        
+       
+      // } 
+  
+    
+  
+      // likeCard(item, likeButton, id, userId)
+      
     }); 
   return cardElement;
 }

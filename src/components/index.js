@@ -1,5 +1,5 @@
 import { removeCard, createCard } from "./card";
-import { likeCard, getInitialCards, addNewCard } from "./cards";
+import { likeCard, firstPromise, addNewCard, initialCards, data_card } from "./cards";
 import "../pages/index.css";
 import "../images/avatar.jpg";
 import { closeModal, openModal, closePopupByOverlay } from "./modal";
@@ -30,8 +30,7 @@ document.forms.new_place.addEventListener("submit", addCard);
 document.addEventListener("click", onModalOpenCLick);
 profileImageEdit.addEventListener("click", function () {
   document.forms.popup_edit_image.reset();
-  
-  openModal(updateAvatarForm); 
+    openModal(updateAvatarForm); 
   //UpdateAvatarForm.querySelector(".button").textContent = "Сохранить";
 
 }); 
@@ -92,25 +91,14 @@ export function addCard() {
    this.querySelector(".button").textContent = "Сохранение...";
   const name = modalAdd.querySelector(".popup__input_type_card-name").value;
   const link = modalAdd.querySelector(".popup__input_type_url").value;
-  let likes = "";
-  let _id = '';
-  event.preventDefault();
-addNewCard(name, link, likes, _id);
- 
-  const newCard = createCard(
-    { name, link, likes, _id },
-    removeCard,
-    likeCard,
-    openImageModal
-  );
-
-  container.prepend(newCard);  
+   event.preventDefault();
+ addNewCard(name, link)
+ .then(response => response.json())
+ .then(data => container.prepend(createCard(data, removeCard, likeCard, openImageModal)))
   closeModal(modalAdd);
 
 }
-
-getInitialCards();
-
+render(initialCards);
 export function editProfile(nameInput, jobInput) {
   profileInfo.querySelector(".profile__title").textContent = nameInput;
   profileInfo.querySelector(".profile__description").textContent = jobInput;

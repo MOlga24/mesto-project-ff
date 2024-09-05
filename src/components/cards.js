@@ -1,46 +1,31 @@
 import { config } from "./api";
-import { render } from "./index";
-// import { likeNum } from "./card";
+import { render, } from "./index";
+import { openImageModal} from "./index";
+import {  createCard,removeCard} from "./card";
+export const firstPromise = await fetch(`${config.baseUrl}/cards`, {
+      headers: config.headers,
+   });
+   const data = await firstPromise.json();
+    export const initialCards = Array.from(data);
 
-export const getInitialCards = () => {
-  return fetch(`${config.baseUrl}/cards`, {
-    headers: config.headers,
-  })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-    })
-    .then((res) => {
-      console.log(res);
-      const initialCards = Array.from(res);
+ 
 
-      render(initialCards);
-      
-    })
 
-    .catch((res) => {
-      return Promise.reject(`Ошибка: ${res.status}`);
-    });
-};
-export function addNewCard(name, link, likeNum, id) {
-  let userId = "18224dc979a1237fbf3f98ed";
-  // let id= '';
-  fetch(`${config.baseUrl}/cards`, {
+export function addNewCard(name, link){
+return  fetch(`${config.baseUrl}/cards`, {
     method: "POST",
-    headers: config.headers,
+    headers: {
+      authorization: '3bdecd97-cc83-4e5e-ac8d-e22694049ffd',
+      'Content-Type': 'application/json'},
     body: JSON.stringify({
       name: name,
-      link: link,
-      likes: likeNum,
-      _id: id
-    }),
-  }).then((res) => res.json()
-  )
-   .then(getInitialCards)
-  
-  
-}
+      link: link
+      }),
+  }) 
+ }
+
+
+
 export function deleteCard(id, listItem) {
   fetch(`${config.baseUrl}/cards/${id}`, {
     method: "DELETE",
@@ -52,54 +37,59 @@ export function deleteCard(id, listItem) {
     .catch((err) => console.log(err));
   listItem.remove();
 }
-export function likeCard(item, likeButton, id, userId) {
- 
+ export function likeCard(item, likeButton, id, userId) {
 
-  let numLike = item.likes.length;
-  if (numLike == 0) {
-    addLikeCard(id); 
-    likeButton.nextElementSibling.textContent = numLike + 1;
-    likeButton.classList.add("card__like-button_is-active");
-  } else {
-    const arrayLikes = Array.from(item.likes);
-    const likes = arrayLikes.map((elem) => ({ _id: elem._id }));
-    for (let el in likes) {
-      if (likes[el]._id == userId) {
-        deleteLikeCard(id);
-         // likeButton.nextElementSibling.textContent = numLike - 1;
-        likeButton.classList.remove("card__like-button_is-active");
+
+  // let numLike = item.likes.length;
+  // if (numLike == 0) {
+  //   addLikeCard(id)
+  //   .then(()=>{likeButton.classList.add("card__like-button_is-active"); likeButton.nextElementSibling.textContent = numLike + 1});
+  //   // likeButton.nextElementSibling.textContent = numLike + 1;
+  //   // likeButton.classList.add("card__like-button_is-active");
+  // } else {
+  //   const arrayLikes = Array.from(item.likes);
+  //   const likes = arrayLikes.map((elem) => ({ _id: elem._id }));
+  //   const likes_ar = Object.values(likes);
+  //   if(likes_ar.find((el) => el._id === userId))
+  //  { 
+  //   deleteLikeCard(id)
+    
+  // } else{
+  //       addLikeCard(id)
+  likeButton.nextElementSibling.textContent =item.likes.length
+  //      //  likeButton.nextElementSibling.textContent = numLike + 1;
+     likeButton.classList.add("card__like-button_is-active");
+  //     }
+    
        
-      } 
-      else {
-        addLikeCard(id);
-       //  likeButton.nextElementSibling.textContent = numLike + 1;
-        likeButton.classList.add("card__like-button_is-active");
-      } 
-    } 
-     getInitialCards();
-  }
+  //        // likeButton.nextElementSibling.textContent = numLike - 1;
+  //     //   likeButton.classList.remove("card__like-button_is-active");
+  //     // }
+      
+     
+  //   // } 
+
+ }
 
  
- getInitialCards();
 
-}
+
+
 
 export function addLikeCard(id) {
-  fetch(`${config.baseUrl}/cards/likes/${id}`, {
+  return fetch(`${config.baseUrl}/cards/likes/${id}`, {
     method: "PUT",
     headers: config.headers,
     
-  }).then((response) => {
-    return response.json()
-    // .then(getInitialCards())
-  });
+  }) 
+
 
 }
 export function deleteLikeCard(id) {
   fetch(`${config.baseUrl}/cards/likes/${id}`, {
     method: "DELETE",
     headers: config.headers,
-  }).then((response) => {
-    return response.json();
-  });
+  })
+ 
+
 }
