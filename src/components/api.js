@@ -6,25 +6,29 @@ export const config = {
     "Content-Type": "application/json",
   },
 };
-export const firstPromise = await fetch(`${config.baseUrl}/cards`, {
-  headers: config.headers,
-});
-const data = await firstPromise.json();
-export const initialCards = Array.from(data);
-export function getProfileInfo(nameInput, jobInput) {
-  fetch(`${config.baseUrl}/users/me`, { headers: config.headers })
-    .then((res) => res.json())
-    .then((profile) => {
-      document
-        .querySelector(".profile__image")
-        .setAttribute("style", `background-image: url(${profile.avatar})`);
-      nameInput = profile.name;
-      jobInput = profile.about;
-      editProfile(nameInput, jobInput);
-    });
+const handleResponse = (response) => {
+  if (response.ok) 
+    {return response.json();
+     
+  }
 }
 
-export function editProfileInfo(nameInput, jobInput) {
+
+export function getCards() {
+  return fetch(`${config.baseUrl}/cards`, {
+      headers: config.headers,
+    })
+    .then(handleResponse) .catch((err) => console.log(err));
+}
+
+export function getProfileInfo() {
+ return fetch(`${config.baseUrl}/users/me`, { 
+    headers: config.headers })
+    .then(handleResponse)
+    .catch((err) => console.log(err));
+}
+
+ export function editProfileInfo(nameInput, jobInput) {
   fetch(`${config.baseUrl}/users/me`, {
     method: "PATCH",
     headers: config.headers,
@@ -32,8 +36,11 @@ export function editProfileInfo(nameInput, jobInput) {
       name: nameInput,
       about: jobInput,
     }),
-  }).then((res) => res.json());
+  })
+   .then(handleResponse)
+  .catch((err) => console.log(err));
 }
+
 export function editAvatarInfo(avatarka) {
   fetch(`${config.baseUrl}/users/me/avatar`, {
     method: "PATCH",
@@ -42,9 +49,7 @@ export function editAvatarInfo(avatarka) {
       avatar: avatarka,
     }),
   })
-    .then((response) => {
-      return response.json();
-    })
+  .then(handleResponse)
     .then((data) => {
       avatarka = data.avatar;
     })
@@ -52,39 +57,38 @@ export function editAvatarInfo(avatarka) {
       document
         .querySelector(".profile__image")
         .setAttribute("style", `background-image: url(${avatarka})`)
-    );
+    ) 
+    .catch((err) => console.log(err));
 }
+
 export function addNewCard(name, link) {
   return fetch(`${config.baseUrl}/cards`, {
     method: "POST",
-    headers: {
-      authorization: "3bdecd97-cc83-4e5e-ac8d-e22694049ffd",
-      "Content-Type": "application/json",
-    },
+    headers: config.headers,
     body: JSON.stringify({
       name: name,
       link: link,
     }),
-  });
+  })
+  .then(handleResponse)
 }
-export function deleteCard(id, listItem) {
+
+export function deleteCard(id) {
   fetch(`${config.baseUrl}/cards/${id}`, {
     method: "DELETE",
     headers: config.headers,
   })
-    .then((response) => {
-      return response.json();
-    })
-    .catch((err) => console.log(err));
-  listItem.remove();
+    .then(handleResponse)
 }
-export function addLike(id, likeButton) {
+
+export function addLike(id) {
   return fetch(`${config.baseUrl}/cards/likes/${id}`, {
     method: "PUT",
     headers: config.headers,
   });
 }
-export function deleteLike(id, likeButton) {
+
+export function deleteLike(id) {
   return fetch(`${config.baseUrl}/cards/likes/${id}`, {
     method: "DELETE",
     headers: config.headers,

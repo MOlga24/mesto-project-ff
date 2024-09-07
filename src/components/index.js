@@ -1,5 +1,5 @@
 import { removeCard, createCard } from "./card";
-import { addNewCard, initialCards } from "./api";
+import { addNewCard, getCards } from "./api";
 import { likeCard } from "./card";
 import "../pages/index.css";
 import "../images/avatar.jpg";
@@ -22,8 +22,19 @@ const profileInfo = document.querySelector(".profile__info");
 export const confirmPopup = document.querySelector(".popup_delete_image");
 const profileImageEdit = document.querySelector(".profile__image");
 const updateAvatarForm = document.querySelector(".popup_edit_image");
+const promises = [getProfileInfo(), getCards()];
 
-getProfileInfo();
+Promise.all(promises).then((data) => {
+  document
+    .querySelector(".profile__image")
+    .setAttribute("style", `background-image: url(${data[0].avatar})`);
+  const nameInput = data[0].name;
+  const jobInput = data[0].about;
+  const userId = data[0]._id;
+  editProfile(nameInput, jobInput);
+  let initialCards = Array.from(data[1]);
+  render(initialCards, userId);
+});
 
 document.forms.edit_profile.addEventListener("submit", handleEditForm);
 
@@ -31,14 +42,8 @@ document.forms.new_place.addEventListener("submit", addCard);
 
 document.addEventListener("click", onModalOpenCLick);
 
-profileImageEdit.addEventListener("click", function () {
-  document.forms.popup_edit_image.reset();
-  updateAvatarForm.querySelector(".button").textContent = "Сохранить";
-  openModal(updateAvatarForm);
-});
-
 document.forms.popup_edit_image.addEventListener("submit", function () {
-  updateAvatarForm.querySelector(".button").textContent = "Сохранение...";
+  this.querySelector(".button").textContent = "Сохранение...";
   const avatarka = document.querySelector(".ava_link").value;
   editAvatarInfo(avatarka);
   closeModal(updateAvatarForm);
@@ -46,7 +51,7 @@ document.forms.popup_edit_image.addEventListener("submit", function () {
 
 modals.forEach(function (elem) {
   elem.querySelector(".popup__close").addEventListener("click", function () {
-  closeModal(elem);
+    closeModal(elem);
   });
 });
 
@@ -58,7 +63,6 @@ function onModalOpenCLick(evt) {
   if (evt.target === modalOpener) {
     document.forms.new_place.reset();
     clearValidation();
-    modalAdd.querySelector(".button").textContent = "Сохранить";
     openModal(modalAdd);
   }
   if (evt.target === modalEditOpener) {
@@ -67,8 +71,12 @@ function onModalOpenCLick(evt) {
       profileInfo.querySelector(".profile__title").textContent;
     document.querySelector(".popup__input_type_description").value =
       profileInfo.querySelector(".profile__description").textContent;
-    modalEdit.querySelector(".button").textContent = "Сохранить";
     openModal(modalEdit);
+  }
+  if (evt.target === profileImageEdit) {
+    document.forms.popup_edit_image.reset();
+    clearValidation();
+    openModal(updateAvatarForm);
   }
 }
 
@@ -79,10 +87,12 @@ export function openImageModal() {
   captionText.textContent = this.alt;
 }
 
-export function render(initialCards) {
+export function render(initialCards, userId) {
   container.textContent = " ";
   initialCards.forEach(function (item) {
-    container.append(createCard(item, removeCard, likeCard, openImageModal));
+    container.append(
+      createCard(item, removeCard, likeCard, openImageModal, userId)
+    );
   });
 }
 
@@ -91,11 +101,11 @@ export function addCard() {
   const name = modalAdd.querySelector(".popup__input_type_card-name").value;
   const link = modalAdd.querySelector(".popup__input_type_url").value;
   event.preventDefault();
-  addNewCard(name, link)
-    .then((response) => response.json())
-    .then((data) =>
-      container.prepend(createCard(data, removeCard, likeCard, openImageModal))
+  Promise.all([getProfileInfo(), addNewCard(name, link)]).then((data) => {
+    container.prepend(
+      createCard(data[1], removeCard, likeCard, openImageModal, data[0]._id)
     );
+  });
   closeModal(modalAdd);
 }
 
@@ -113,7 +123,6 @@ function handleEditForm(evt) {
   evt.preventDefault();
   closeModal(modalEdit);
   document.forms.edit_profile.reset();
-  this.querySelector(".button").classList.add(".popup__button_disabled");
 }
-render(initialCards);
+
 enableValidation(validationConfig);
