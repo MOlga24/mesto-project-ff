@@ -24,20 +24,6 @@ const profileImageEdit = document.querySelector(".profile__image");
 const updateAvatarForm = document.querySelector(".popup_edit_image");
 const promises = [getProfileInfo(), getCards()];
 
-Promise.all(promises).then((data) => {
-  document
-    .querySelector(".profile__image")
-    .setAttribute("style", `background-image: url(${data[0].avatar})`);
-  const nameInput = data[0].name;
-  const jobInput = data[0].about;
-  const userId = data[0]._id;
-  editProfile(nameInput, jobInput);
-  let initialCards = Array.from(data[1]);
-  render(initialCards, userId);
-})
-.catch(error => {console.error(error)});
-
-
 document.forms.edit_profile.addEventListener("submit", handleEditForm);
 
 document.forms.new_place.addEventListener("submit", addCard);
@@ -103,12 +89,15 @@ export function addCard() {
   const name = modalAdd.querySelector(".popup__input_type_card-name").value;
   const link = modalAdd.querySelector(".popup__input_type_url").value;
   event.preventDefault();
-  Promise.all([getProfileInfo(), addNewCard(name, link)]).then((data) => {
-    container.prepend(
-      createCard(data[1], removeCard, likeCard, openImageModal, data[0]._id)
-    );
-  })
-  .catch(error => {console.error(error)});
+  Promise.all([getProfileInfo(), addNewCard(name, link)])
+    .then((data) => {
+      container.prepend(
+        createCard(data[1], removeCard, likeCard, openImageModal, data[0]._id)
+      );
+    })
+    .catch((error) => {
+      console.error(error);
+    });
   closeModal(modalAdd);
 }
 
@@ -128,4 +117,20 @@ function handleEditForm(evt) {
   document.forms.edit_profile.reset();
 }
 
+Promise.all(promises)
+  .then((data) => {
+    document
+      .querySelector(".profile__image")
+      .setAttribute("style", `background-image: url(${data[0].avatar})`);
+    const nameInput = data[0].name;
+    const jobInput = data[0].about;
+    const userId = data[0]._id;
+    editProfile(nameInput, jobInput);
+    let initialCards = Array.from(data[1]);
+    render(initialCards, userId);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+  
 enableValidation(validationConfig);

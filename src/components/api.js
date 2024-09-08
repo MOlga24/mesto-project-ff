@@ -7,28 +7,24 @@ export const config = {
   },
 };
 const handleResponse = (response) => {
-  if (response.ok) 
-    {return response.json();
-     
+  if (response.ok) {
+    return response.json();
   }
-}
-
+};
 
 export function getCards() {
   return fetch(`${config.baseUrl}/cards`, {
-      headers: config.headers,
-    })
-    .then(handleResponse) 
+    headers: config.headers,
+  }).then(handleResponse);
 }
 
 export function getProfileInfo() {
- return fetch(`${config.baseUrl}/users/me`, { 
-    headers: config.headers })
-    .then(handleResponse)
-   
+  return fetch(`${config.baseUrl}/users/me`, {
+    headers: config.headers,
+  }).then(handleResponse);
 }
 
- export function editProfileInfo(nameInput, jobInput) {
+export function editProfileInfo(nameInput, jobInput) {
   fetch(`${config.baseUrl}/users/me`, {
     method: "PATCH",
     headers: config.headers,
@@ -37,8 +33,8 @@ export function getProfileInfo() {
       about: jobInput,
     }),
   })
-   .then(handleResponse)
-  .catch((err) => console.log(err));
+    .then(handleResponse)
+    .catch((err) => console.log(err));
 }
 
 export function editAvatarInfo(avatarka) {
@@ -49,7 +45,7 @@ export function editAvatarInfo(avatarka) {
       avatar: avatarka,
     }),
   })
-  .then(handleResponse)
+    .then(handleResponse)
     .then((data) => {
       avatarka = data.avatar;
     })
@@ -57,7 +53,7 @@ export function editAvatarInfo(avatarka) {
       document
         .querySelector(".profile__image")
         .setAttribute("style", `background-image: url(${avatarka})`)
-    ) 
+    )
     .catch((err) => console.log(err));
 }
 
@@ -69,9 +65,7 @@ export function addNewCard(name, link) {
       name: name,
       link: link,
     }),
-  })
-  .then(handleResponse)
- 
+  }).then(handleResponse);
 }
 
 export function deleteCard(id) {
@@ -94,6 +88,5 @@ export function deleteLike(id) {
   return fetch(`${config.baseUrl}/cards/likes/${id}`, {
     method: "DELETE",
     headers: config.headers,
-  })
-  .catch((err) => console.log(err));
+  }).catch((err) => console.log(err));
 }

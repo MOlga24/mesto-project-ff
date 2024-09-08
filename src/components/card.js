@@ -1,10 +1,9 @@
-import { deleteCard, addLike, deleteLike} from "./api";
+import { deleteCard, addLike, deleteLike } from "./api";
 import { confirmPopup } from "./index";
 import { openModal, closeModal } from "./modal";
 const cardTemplate = document.querySelector("#card-template").content;
 
 export function createCard(item, removeCard, likeCard, openImageModal, userId) {
-
   let cardImage = cardTemplate.querySelector(".card__image");
   cardImage.setAttribute("alt", item.name);
   cardImage.setAttribute("src", item.link);
@@ -23,8 +22,8 @@ export function createCard(item, removeCard, likeCard, openImageModal, userId) {
   deleteButton.addEventListener("click", function () {
     openModal(confirmPopup);
     document.forms.delete_card.addEventListener("submit", function () {
-        removeCard(deleteButton, id);  
-     });
+      removeCard(deleteButton, id);
+    });
   });
   cardElement
     .querySelector(".card__image")
@@ -50,26 +49,21 @@ export function createCard(item, removeCard, likeCard, openImageModal, userId) {
     }
   });
   return cardElement;
-
 }
 
 export function removeCard(deleteButton, id) {
   const listItem = deleteButton.closest(".card");
   deleteCard(id);
- listItem.remove();
- closeModal(confirmPopup);
-
+  listItem.remove();
+  closeModal(confirmPopup);
 }
 
 export function likeCard(item, likeButton) {
   likeButton.nextElementSibling.textContent = item.length;
-
 }
 
 function hasLike(item, userId) {
   const arrayLikes = Array.from(item.likes);
   const likes = arrayLikes.map((elem) => ({ _id: elem._id }));
-  if (likes.find((el) => el._id === userId)) 
-  return true;
-
+  if (likes.find((el) => el._id === userId)) return true;
 }
