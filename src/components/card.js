@@ -23,9 +23,8 @@ export function createCard(item, removeCard, likeCard, openImageModal, userId) {
   deleteButton.addEventListener("click", function () {
     openModal(confirmPopup);
     document.forms.delete_card.addEventListener("submit", function () {
-      closeModal(confirmPopup);
-      removeCard(deleteButton, id);
-    });
+        removeCard(deleteButton, id);  
+     });
   });
   cardElement
     .querySelector(".card__image")
@@ -58,6 +57,7 @@ export function removeCard(deleteButton, id) {
   const listItem = deleteButton.closest(".card");
   deleteCard(id);
  listItem.remove();
+ closeModal(confirmPopup);
 
 }
 

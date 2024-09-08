@@ -112,7 +112,7 @@
               class="popup__input popup__input_type_url"
               placeholder="Ссылка на картинку"
               required
-              pattern="[^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$]"
+              pattern="[^(https?:\/\/\)?([\w\.]+)\.([a-z]{2,6}\.?)([\/\w \.]*)*\/?$]"
               data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы"
             />
             <span
@@ -144,7 +144,7 @@
         <form class="popup__form" name="delete_card">
           <button type="button" class="popup__close"></button>
           <h3 class="popup__title">Вы уверены?</h3>
-          <button type="submit" class="button popup__button">Да</button>
+          <button type="submit" class="button popup__button" data-dismiss="modal">Да</button>
         </div>
       </form>
       </div>

@@ -18,14 +18,14 @@ export function getCards() {
   return fetch(`${config.baseUrl}/cards`, {
       headers: config.headers,
     })
-    .then(handleResponse) .catch((err) => console.log(err));
+    .then(handleResponse) 
 }
 
 export function getProfileInfo() {
  return fetch(`${config.baseUrl}/users/me`, { 
     headers: config.headers })
     .then(handleResponse)
-    .catch((err) => console.log(err));
+   
 }
 
  export function editProfileInfo(nameInput, jobInput) {
@@ -71,6 +71,7 @@ export function addNewCard(name, link) {
     }),
   })
   .then(handleResponse)
+ 
 }
 
 export function deleteCard(id) {
@@ -79,6 +80,7 @@ export function deleteCard(id) {
     headers: config.headers,
   })
     .then(handleResponse)
+    .catch((err) => console.log(err));
 }
 
 export function addLike(id) {
@@ -92,5 +94,6 @@ export function deleteLike(id) {
   return fetch(`${config.baseUrl}/cards/likes/${id}`, {
     method: "DELETE",
     headers: config.headers,
-  });
+  })
+  .catch((err) => console.log(err));
 }

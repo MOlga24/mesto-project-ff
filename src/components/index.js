@@ -34,7 +34,9 @@ Promise.all(promises).then((data) => {
   editProfile(nameInput, jobInput);
   let initialCards = Array.from(data[1]);
   render(initialCards, userId);
-});
+})
+.catch(error => {console.error(error)});
+
 
 document.forms.edit_profile.addEventListener("submit", handleEditForm);
 
@@ -105,7 +107,8 @@ export function addCard() {
     container.prepend(
       createCard(data[1], removeCard, likeCard, openImageModal, data[0]._id)
     );
-  });
+  })
+  .catch(error => {console.error(error)});
   closeModal(modalAdd);
 }
 
