@@ -1,4 +1,4 @@
-# Проектная работа Mesto([mesto](ccskrf)
+# Проектная работа Mesto([mesto](https://molga24.github.io/mesto-project-ff/))
 Alt-H1
 ------
 *-проект на курсе "Фронтенд-разработчик" от Яндекс Практикум.*
@@ -36,4 +36,4 @@ git clone
     npm run dev
 ```
 ### Ссылка на сайт:
-git@github.com:MOlga24/mesto-project-ff.git
+[(https://molga24.github.io/mesto-project-ff/)]
