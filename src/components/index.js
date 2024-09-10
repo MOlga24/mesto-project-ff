@@ -45,8 +45,9 @@ formEditProfile.addEventListener("submit", handleEditForm);
 formAddCard.addEventListener("submit", addCard);
 
 formEditAvatar.addEventListener("submit", function (evt) {
-  formEditAvatar.reset();
+  // formEditAvatar.reset();
   renderLoading(updateAvatarForm);
+
   evt.preventDefault();
   const avatarka = avatarLink.value;
   editAvatarInfo(avatarka)
@@ -57,7 +58,7 @@ formEditAvatar.addEventListener("submit", function (evt) {
     )
     .then(closeModal(updateAvatarForm))
     .catch((err) => console.log(err))
-    .finally(renderLoading(updateAvatarForm));
+     .finally(()=>{renderLoading(updateAvatarForm)});
 });
 
 modals.forEach(function (elem) {
@@ -85,6 +86,7 @@ profileImageEdit.addEventListener("click", function () {
 
   clearValidation(validationConfig, formEditAvatar);
   openModal(updateAvatarForm);
+  // renderLoading(updateAvatarForm);
 });
 
 export function openImageModal() {
@@ -104,8 +106,8 @@ export function renderInitialCards(initialCards, userId) {
   });
 }
 
-export function addCard() {
-  event.preventDefault();
+export function addCard(event) {
+  
   renderLoading(modalAdd);
   const name = editCardName.value;
   const link = editCardUrl.value;
@@ -119,7 +121,7 @@ export function addCard() {
     .catch((error) => {
       console.error(error);
     })
-    .finally(renderLoading(modalAdd));
+    .finally(()=>{renderLoading(modalAdd)});event.preventDefault();
 }
 
 export function editProfile(nameInput, jobInput) {
@@ -133,7 +135,7 @@ export function editProfile(nameInput, jobInput) {
     .catch((error) => {
       console.error(error);
     })
-    .finally(renderLoading(modalEdit));
+    .finally(()=>{renderLoading(modalEdit)});
 }
 
 function handleEditForm(evt) {
