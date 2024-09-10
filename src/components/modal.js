@@ -1,20 +1,13 @@
 export function openModal(el) {
   el.classList.add("popup_is-animated");
- 
-  if (
-    !el.classList.contains("popup_type_image") &&
-    !el.classList.contains("popup_delete_image")
-  ) {el.querySelector(".button").classList.add("popup__button_disabled");
-     el.querySelector(".button").textContent = "Сохранить";};
   el.classList.add("popup_is-opened");
   document.addEventListener("keydown", closeModalByKey);
-
 }
 
 export function closeModal(el) {
   el.classList.remove("popup_is-opened");
+  el.classList.remove("popup_is-animated");
   document.removeEventListener("keydown", closeModalByKey);
-  
 }
 
 function closeModalByKey(evt) {

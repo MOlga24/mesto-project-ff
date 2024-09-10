@@ -119,9 +119,7 @@
               class="type_url-input-error popup__input-error"
               aria-live="polite"
             ></span>
-            <button type="submit" class="button popup__button">
-              Сохранить
-            </button>
+            <button type="submit" class="button popup__button">Сохранить</button>
             <span
               class="form__empty-error"
               id="empty-error"
@@ -144,7 +142,7 @@
         <form class="popup__form" name="delete_card">
           <button type="button" class="popup__close"></button>
           <h3 class="popup__title">Вы уверены?</h3>
-          <button type="submit" class="button popup__button" data-dismiss="modal">Да</button>
+          <button type="submit" class="button popup__button">Да</button>
         </div>
       </form>
       </div>
@@ -158,7 +156,7 @@
             type="url"
             name="ava"
             class="ava_link popup__input popup__input_type_url"
-            placeholder=""   
+            placeholder="ссылка на изображение"   
             required
             pattern="[^https?://\S+(?:jpe?g|png)$]"
             data-error-message="Введите ссылку на изображение"

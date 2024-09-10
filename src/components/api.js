@@ -1,4 +1,3 @@
-import { editProfile } from "./index";
 export const config = {
   baseUrl: "https://nomoreparties.co/v1/wff-cohort-22",
   headers: {
@@ -25,36 +24,24 @@ export function getProfileInfo() {
 }
 
 export function editProfileInfo(nameInput, jobInput) {
-  fetch(`${config.baseUrl}/users/me`, {
+  return fetch(`${config.baseUrl}/users/me`, {
     method: "PATCH",
     headers: config.headers,
     body: JSON.stringify({
       name: nameInput,
       about: jobInput,
     }),
-  })
-    .then(handleResponse)
-    .catch((err) => console.log(err));
+  }).then(handleResponse);
 }
 
 export function editAvatarInfo(avatarka) {
-  fetch(`${config.baseUrl}/users/me/avatar`, {
+  return fetch(`${config.baseUrl}/users/me/avatar`, {
     method: "PATCH",
     headers: config.headers,
     body: JSON.stringify({
       avatar: avatarka,
     }),
-  })
-    .then(handleResponse)
-    .then((data) => {
-      avatarka = data.avatar;
-    })
-    .then(
-      document
-        .querySelector(".profile__image")
-        .setAttribute("style", `background-image: url(${avatarka})`)
-    )
-    .catch((err) => console.log(err));
+  }).then(handleResponse);
 }
 
 export function addNewCard(name, link) {
@@ -69,12 +56,10 @@ export function addNewCard(name, link) {
 }
 
 export function deleteCard(id) {
-  fetch(`${config.baseUrl}/cards/${id}`, {
+  return fetch(`${config.baseUrl}/cards/${id}`, {
     method: "DELETE",
     headers: config.headers,
-  })
-    .then(handleResponse)
-    .catch((err) => console.log(err));
+  }).then(handleResponse);
 }
 
 export function addLike(id) {
@@ -88,5 +73,5 @@ export function deleteLike(id) {
   return fetch(`${config.baseUrl}/cards/likes/${id}`, {
     method: "DELETE",
     headers: config.headers,
-  }).catch((err) => console.log(err));
+  });
 }
