@@ -56,7 +56,7 @@ formEditAvatar.addEventListener("submit", function (evt) {
         .querySelector(".profile__image")
         .setAttribute("style", `background-image: url(${avatarka})`)
     )
-    .then(closeModal(updateAvatarForm))
+    .then(()=>{closeModal(updateAvatarForm)})
     .catch((err) => console.log(err))
      .finally(()=>{renderLoading(updateAvatarForm)});
 });
@@ -107,7 +107,7 @@ export function renderInitialCards(initialCards, userId) {
 }
 
 export function addCard(event) {
-  
+  event.preventDefault();
   renderLoading(modalAdd);
   const name = editCardName.value;
   const link = editCardUrl.value;
@@ -117,11 +117,11 @@ export function addCard(event) {
         createCard(data, deleteMyCard, likeCard, openImageModal, userId)
       );
     })
-    .then(closeModal(modalAdd))
+    .then(()=>{closeModal(modalAdd)})
     .catch((error) => {
       console.error(error);
     })
-    .finally(()=>{renderLoading(modalAdd)});event.preventDefault();
+    .finally(()=>{renderLoading(modalAdd)});
 }
 
 export function editProfile(nameInput, jobInput) {
