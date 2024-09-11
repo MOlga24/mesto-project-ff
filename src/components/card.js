@@ -1,4 +1,4 @@
-import { deleteCard, addLike, deleteLike } from "./api";
+import { addLike, deleteLike } from "./api";
 const cardTemplate = document.querySelector("#card-template").content;
 
 export function createCard(
@@ -28,7 +28,7 @@ export function createCard(
   }
 
   deleteButton.addEventListener("click", function () {
-    deleteMyCard(deleteButton, id);
+    deleteMyCard(cardElement, id);
   });
   cardElement
     .querySelector(".card__image")
@@ -37,7 +37,6 @@ export function createCard(
     hasLike(item, userId);
     if (hasLike(item, userId)) {
       deleteLike(item._id)
-        .then((response) => response.json())
         .then((data) => {
           item.likes = data.likes;
           likeCard(data.likes, likeButton);
@@ -46,27 +45,16 @@ export function createCard(
         .catch((err) => console.log(err));
     } else {
       addLike(item._id)
-        .then((response) => response.json())
         .then((data) => {
           item.likes = data.likes;
           likeCard(data.likes, likeButton);
           likeButton.classList.add("card__like-button_is-active");
-          console.log(data);
         })
         .catch((err) => console.log(err));
     }
   });
   return cardElement;
 }
-
-// export function removeCard(deleteButton, id) {
-// const listItem = deleteButton.closest(".card");
-//   deleteCard(id)
-//   .then(listItem.remove())
-//    //.then(closeModal(confirmPopup))
-//   .catch((err) => console.log(err));
-
-// }
 
 export function likeCard(item, likeButton) {
   likeButton.nextElementSibling.textContent = item.length;

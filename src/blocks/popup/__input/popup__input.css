@@ -28,14 +28,14 @@
   
 
 }
-/* .popup__error_visible {
+.popup__error_visible {
   color: rgba(255, 0, 0, 1);
-  opacity: 1;
-} */
+
+}
 .popup__input-error {
-  color:  rgba(255, 0, 0, 1);
   display: block;
   box-sizing: border-box;
   font-size: 80%;
   height: 30px;
+
 }

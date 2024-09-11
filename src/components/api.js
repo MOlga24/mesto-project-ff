@@ -66,12 +66,14 @@ export function addLike(id) {
   return fetch(`${config.baseUrl}/cards/likes/${id}`, {
     method: "PUT",
     headers: config.headers,
-  });
+  })
+  .then(handleResponse);
 }
 
 export function deleteLike(id) {
   return fetch(`${config.baseUrl}/cards/likes/${id}`, {
     method: "DELETE",
     headers: config.headers,
-  });
+  })
+  .then(handleResponse);
 }

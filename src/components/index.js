@@ -1,4 +1,4 @@
-import { removeCard, createCard } from "./card";
+import { createCard } from "./card";
 import { addNewCard, getCards, deleteCard } from "./api";
 import { likeCard } from "./card";
 import "../pages/index.css";
@@ -12,7 +12,7 @@ import {
 import { renderLoading } from "./utils";
 import { getProfileInfo, editProfileInfo, editAvatarInfo } from "./api";
 const modalAdd = document.querySelector(".popup_type_new-card");
-const modalOpener = document.querySelector(".profile__add-button");
+const modalAddOpener = document.querySelector(".profile__add-button");
 const modalEdit = document.querySelector(".popup_type_edit");
 const container = document.querySelector(".places__list");
 const modals = document.querySelectorAll(".popup");
@@ -45,9 +45,7 @@ formEditProfile.addEventListener("submit", handleEditForm);
 formAddCard.addEventListener("submit", addCard);
 
 formEditAvatar.addEventListener("submit", function (evt) {
-  // formEditAvatar.reset();
   renderLoading(updateAvatarForm);
-
   evt.preventDefault();
   const avatarka = avatarLink.value;
   editAvatarInfo(avatarka)
@@ -56,9 +54,13 @@ formEditAvatar.addEventListener("submit", function (evt) {
         .querySelector(".profile__image")
         .setAttribute("style", `background-image: url(${avatarka})`)
     )
-    .then(()=>{closeModal(updateAvatarForm)})
+    .then(() => {
+      closeModal(updateAvatarForm);
+    })
     .catch((err) => console.log(err))
-     .finally(()=>{renderLoading(updateAvatarForm)});
+    .finally(() => {
+      renderLoading(updateAvatarForm);
+    });
 });
 
 modals.forEach(function (elem) {
@@ -70,11 +72,12 @@ modals.forEach(function (elem) {
 modals.forEach(function (elem) {
   elem.addEventListener("click", closePopupByOverlay);
 });
-modalOpener.addEventListener("click", function () {
+modalAddOpener.addEventListener("click", function () {
   formAddCard.reset();
   clearValidation(validationConfig, formAddCard);
   openModal(modalAdd);
 });
+
 modalEditOpener.addEventListener("click", function () {
   clearValidation(validationConfig, formEditProfile);
   profileName.value = editProfileName.textContent;
@@ -83,10 +86,8 @@ modalEditOpener.addEventListener("click", function () {
 });
 profileImageEdit.addEventListener("click", function () {
   formEditAvatar.reset();
-
   clearValidation(validationConfig, formEditAvatar);
   openModal(updateAvatarForm);
-  // renderLoading(updateAvatarForm);
 });
 
 export function openImageModal() {
@@ -117,11 +118,18 @@ export function addCard(event) {
         createCard(data, deleteMyCard, likeCard, openImageModal, userId)
       );
     })
-    .then(()=>{closeModal(modalAdd)})
+    .then(() => {
+      closeModal(modalAdd);
+    })
+    .then(() => {
+      clearValidation(validationConfig, formAddCard);
+    })
     .catch((error) => {
       console.error(error);
     })
-    .finally(()=>{renderLoading(modalAdd)});
+    .finally(() => {
+      renderLoading(modalAdd);
+    });
 }
 
 export function editProfile(nameInput, jobInput) {
@@ -135,7 +143,9 @@ export function editProfile(nameInput, jobInput) {
     .catch((error) => {
       console.error(error);
     })
-    .finally(()=>{renderLoading(modalEdit)});
+    .finally(() => {
+      renderLoading(modalEdit);
+    });
 }
 
 function handleEditForm(evt) {
@@ -166,11 +176,17 @@ Promise.all(promises)
 
 enableValidation(validationConfig);
 
-export function deleteMyCard(deleteButton, id) {
-  const listItem = deleteButton.closest(".card");
+export function deleteMyCard(cardElement, id) {
   openModal(confirmPopup);
   formDeleteCard.addEventListener("submit", function (e) {
     e.preventDefault();
-    deleteCard(id).then(listItem.remove()).then(closeModal(confirmPopup));
+    deleteCard(id)
+      .then(() => {
+        cardElement.remove();
+        closeModal(confirmPopup);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   });
 }
