@@ -18,10 +18,7 @@ export function createCard(
   const id = item._id;
   const likeButton = cardElement.querySelector(".card__like-button");
   const likeSpan = cardElement.querySelector(".like__num");
-  likeSpan.textContent = item.likes.length;
-  if (hasLike(item, userId)) {
-    likeButton.classList.add("card__like-button_is-active");
-  }
+
   const deleteButton = cardElement.querySelector(".card__delete-button");
   if (item.owner._id !== userId) {
     deleteButton.remove();
@@ -33,31 +30,38 @@ export function createCard(
   cardElement
     .querySelector(".card__image")
     .addEventListener("click", openImageModal);
+  if (hasLike(item, userId)) {
+    likeButton.classList.add("card__like-button_is-active");
+  }
+  likeSpan.textContent = item.likes.length;
   likeButton.addEventListener("click", function () {
-    hasLike(item, userId);
-    if (hasLike(item, userId)) {
-      deleteLike(item._id)
-        .then((data) => {
-          item.likes = data.likes;
-          likeCard(data.likes, likeButton);
-          likeButton.classList.remove("card__like-button_is-active");
-        })
-        .catch((err) => console.log(err));
-    } else {
-      addLike(item._id)
-        .then((data) => {
-          item.likes = data.likes;
-          likeCard(data.likes, likeButton);
-          likeButton.classList.add("card__like-button_is-active");
-        })
-        .catch((err) => console.log(err));
-    }
+    likeCard(item, likeButton, userId, likeSpan);
   });
+
   return cardElement;
 }
-
-export function likeCard(item, likeButton) {
-  likeButton.nextElementSibling.textContent = item.length;
+export function deleteCard(cardElement) {
+  cardElement.remove();
+}
+export function likeCard(item, likeButton, userId, likeSpan) {
+  if (hasLike(item, userId)) {
+    deleteLike(item._id)
+      .then((data) => {
+        item.likes = data.likes;
+        likeSpan.textContent = data.likes.length;
+        likeButton.classList.remove("card__like-button_is-active");
+      })
+      .catch((err) => console.log(err));
+  } else {
+    addLike(item._id)
+      .then((data) => {
+        item.likes = data.likes;
+        likeSpan.textContent = data.likes.length;
+        likeButton.classList.add("card__like-button_is-active");
+      })
+      .catch((err) => console.log(err));
+  }
+  return item.likes;
 }
 
 function hasLike(item, userId) {

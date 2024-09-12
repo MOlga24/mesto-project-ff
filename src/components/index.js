@@ -1,5 +1,5 @@
-import { createCard } from "./card";
-import { addNewCard, getCards, deleteCard } from "./api";
+import { createCard, deleteCard } from "./card";
+import { addNewCard, getCards, deleteCardServer } from "./api";
 import { likeCard } from "./card";
 import "../pages/index.css";
 import "../images/avatar.jpg";
@@ -73,8 +73,6 @@ modals.forEach(function (elem) {
   elem.addEventListener("click", closePopupByOverlay);
 });
 modalAddOpener.addEventListener("click", function () {
-  formAddCard.reset();
-  clearValidation(validationConfig, formAddCard);
   openModal(modalAdd);
 });
 
@@ -120,7 +118,9 @@ export function addCard(event) {
     })
     .then(() => {
       closeModal(modalAdd);
+      formAddCard.reset();
     })
+
     .then(() => {
       clearValidation(validationConfig, formAddCard);
     })
@@ -164,12 +164,11 @@ Promise.all(promises)
     const nameInput = data[0].name;
     const jobInput = data[0].about;
     userId = data[0]._id;
-    editProfile(nameInput, jobInput);
-    renderLoading(modalEdit);
+    editProfileName.textContent = nameInput;
+    editProfileDescription.textContent = jobInput;
     const initialCards = Array.from(data[1]);
     renderInitialCards(initialCards, userId);
   })
-
   .catch((error) => {
     console.error(error);
   });
@@ -180,9 +179,9 @@ export function deleteMyCard(cardElement, id) {
   openModal(confirmPopup);
   formDeleteCard.addEventListener("submit", function (e) {
     e.preventDefault();
-    deleteCard(id)
+    deleteCardServer(id)
       .then(() => {
-        cardElement.remove();
+        deleteCard(cardElement);
         closeModal(confirmPopup);
       })
       .catch((error) => {

@@ -18,17 +18,17 @@ export function enableValidation(validationConfig) {
   });
 }
 
-export function clearValidation(validationConfig, formName) {
-  const elems = formName.querySelectorAll(validationConfig.inputSelector);
+export function clearValidation(validationConfig, formElement) {
+  const elems = formElement.querySelectorAll(validationConfig.inputSelector);
   elems.forEach((itm) => {
     itm.classList.remove(validationConfig.inputErrorClass);
   });
-  const errorElems = formName.querySelectorAll(`.${validationConfig.errorClass}`);
+  const errorElems = formElement.querySelectorAll(`.${validationConfig.errorClass}`);
   errorElems.forEach((itm) => {
     itm.textContent = "";
    itm.classList.remove(validationConfig.errorClass);
   });
-  const formButton = formName.querySelector(validationConfig.submitButtonSelector);
+  const formButton = formElement.querySelector(validationConfig.submitButtonSelector);
   formButton.classList.add(validationConfig.inactiveButtonClass);    
   formButton.disabled = true;
 
